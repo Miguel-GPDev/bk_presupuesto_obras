@@ -152,6 +152,19 @@ Ejemplo body:
 }
 ```
 
+### Registro de usuario
+`POST /api/auth/register`
+
+Este endpoint no requiere autenticación y permite crear nuevos usuarios para usar HTTP Basic.
+
+Ejemplo body:
+```json
+{
+  "username": "nuevo_usuario",
+  "password": "claveSegura123"
+}
+```
+
 ### CRUD de cliente
 - Crear cliente para presupuesto: `POST /api/clientes/{presupuestoId}`
 - Listar clientes: `GET /api/clientes`
