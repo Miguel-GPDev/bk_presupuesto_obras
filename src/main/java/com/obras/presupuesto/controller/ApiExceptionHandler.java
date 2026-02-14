@@ -1,6 +1,7 @@
 package com.obras.presupuesto.controller;
 
 import com.obras.presupuesto.exception.NotFoundException;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -20,6 +21,19 @@ public class ApiExceptionHandler {
         for (FieldError fieldError : ex.getBindingResult().getFieldErrors()) {
             errors.put(fieldError.getField(), fieldError.getDefaultMessage());
         }
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("message", "Error de validación");
+        body.put("errors", errors);
+
+        return ResponseEntity.badRequest().body(body);
+    }
+
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Map<String, Object>> handleConstraintViolation(ConstraintViolationException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getConstraintViolations().forEach(v -> errors.put(v.getPropertyPath().toString(), v.getMessage()));
 
         Map<String, Object> body = new HashMap<>();
         body.put("message", "Error de validación");
