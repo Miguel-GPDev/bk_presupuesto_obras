@@ -106,6 +106,20 @@ Ejemplo body:
 }
 ```
 
+### CRUD de capítulos
+- Crear: `POST /api/presupuestos/{presupuestoId}/capitulos`
+- Listar: `GET /api/presupuestos/{presupuestoId}/capitulos`
+- Obtener por id: `GET /api/presupuestos/{presupuestoId}/capitulos/{capituloId}`
+- Actualizar: `PUT /api/presupuestos/{presupuestoId}/capitulos/{capituloId}`
+- Eliminar: `DELETE /api/presupuestos/{presupuestoId}/capitulos/{capituloId}`
+
+### CRUD de partidas
+- Crear: `POST /api/presupuestos/capitulos/{capituloId}/partidas`
+- Listar: `GET /api/presupuestos/capitulos/{capituloId}/partidas`
+- Obtener por id: `GET /api/presupuestos/capitulos/{capituloId}/partidas/{partidaId}`
+- Actualizar: `PUT /api/presupuestos/capitulos/{capituloId}/partidas/{partidaId}`
+- Eliminar: `DELETE /api/presupuestos/capitulos/{capituloId}/partidas/{partidaId}`
+
 ## Salida de PDF
 Los PDFs se generan automáticamente en la carpeta:
 
