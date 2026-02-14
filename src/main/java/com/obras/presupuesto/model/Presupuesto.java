@@ -22,6 +22,12 @@ public class Presupuesto {
     @OneToMany(mappedBy = "presupuesto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Capitulo> capitulos = new ArrayList<>();
 
+    @OneToOne(mappedBy = "presupuesto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private EncabezadoEmpresa encabezadoEmpresa;
+
+    @OneToOne(mappedBy = "presupuesto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Cliente cliente;
+
     @PrePersist
     public void prePersist() {
         if (fechaCreacion == null) {
@@ -32,6 +38,20 @@ public class Presupuesto {
     public void addCapitulo(Capitulo capitulo) {
         capitulos.add(capitulo);
         capitulo.setPresupuesto(this);
+    }
+
+    public void setEncabezadoEmpresa(EncabezadoEmpresa encabezadoEmpresa) {
+        this.encabezadoEmpresa = encabezadoEmpresa;
+        if (encabezadoEmpresa != null) {
+            encabezadoEmpresa.setPresupuesto(this);
+        }
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+        if (cliente != null) {
+            cliente.setPresupuesto(this);
+        }
     }
 
     public Long getId() {
@@ -52,5 +72,13 @@ public class Presupuesto {
 
     public List<Capitulo> getCapitulos() {
         return capitulos;
+    }
+
+    public EncabezadoEmpresa getEncabezadoEmpresa() {
+        return encabezadoEmpresa;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
     }
 }

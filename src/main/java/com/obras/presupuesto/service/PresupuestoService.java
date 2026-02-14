@@ -10,6 +10,8 @@ import com.obras.presupuesto.dto.PresupuestoListadoResponse;
 import com.obras.presupuesto.dto.PresupuestoResponse;
 import com.obras.presupuesto.exception.NotFoundException;
 import com.obras.presupuesto.model.Capitulo;
+import com.obras.presupuesto.model.Cliente;
+import com.obras.presupuesto.model.EncabezadoEmpresa;
 import com.obras.presupuesto.model.Partida;
 import com.obras.presupuesto.model.Presupuesto;
 import com.obras.presupuesto.repository.CapituloRepository;
@@ -43,6 +45,26 @@ public class PresupuestoService {
     public PresupuestoResponse crearPresupuesto(CrearPresupuestoRequest request) {
         Presupuesto presupuesto = new Presupuesto();
         presupuesto.setNombre(request.nombre());
+
+        if (request.empresa() != null) {
+            EncabezadoEmpresa encabezadoEmpresa = new EncabezadoEmpresa();
+            encabezadoEmpresa.setNombreEmpresa(request.empresa().nombreEmpresa());
+            encabezadoEmpresa.setCif(request.empresa().cif());
+            encabezadoEmpresa.setDireccion(request.empresa().direccion());
+            encabezadoEmpresa.setTelefono(request.empresa().telefono());
+            encabezadoEmpresa.setEmail(request.empresa().email());
+            presupuesto.setEncabezadoEmpresa(encabezadoEmpresa);
+        }
+
+        if (request.cliente() != null) {
+            Cliente cliente = new Cliente();
+            cliente.setNombreCliente(request.cliente().nombreCliente());
+            cliente.setDocumento(request.cliente().documento());
+            cliente.setDireccion(request.cliente().direccion());
+            cliente.setTelefono(request.cliente().telefono());
+            cliente.setEmail(request.cliente().email());
+            presupuesto.setCliente(cliente);
+        }
 
         for (CapituloRequest capituloRequest : request.capitulos()) {
             Capitulo capitulo = new Capitulo();

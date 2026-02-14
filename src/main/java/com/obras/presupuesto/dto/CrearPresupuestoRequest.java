@@ -8,5 +8,7 @@ import java.util.List;
 
 public record CrearPresupuestoRequest(
         @NotBlank String nombre,
-        @NotEmpty List<@Valid CapituloRequest> capitulos
+        @NotEmpty List<@Valid CapituloRequest> capitulos,
+        @Valid EncabezadoRequest empresa,
+        @Valid ClienteRequest cliente
 ) {}

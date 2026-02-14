@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface PresupuestoRepository extends JpaRepository<Presupuesto, Long> {
 
-    @EntityGraph(attributePaths = {"capitulos", "capitulos.partidas"})
+    @EntityGraph(attributePaths = {"capitulos", "capitulos.partidas", "encabezadoEmpresa", "cliente"})
     Optional<Presupuesto> findWithDetailById(Long id);
 }

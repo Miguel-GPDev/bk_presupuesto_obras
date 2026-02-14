@@ -58,7 +58,21 @@ Ejemplo de petición:
         }
       ]
     }
-  ]
+  ],
+  "empresa": {
+    "nombreEmpresa": "Constructora Norte S.L.",
+    "cif": "B12345678",
+    "direccion": "Calle Mayor 10, Madrid",
+    "telefono": "+34910000000",
+    "email": "info@constructoranorte.com"
+  },
+  "cliente": {
+    "nombreCliente": "Juan Pérez",
+    "documento": "12345678Z",
+    "direccion": "Av. Principal 99, Madrid",
+    "telefono": "+34600000000",
+    "email": "juanperez@email.com"
+  }
 }
 ```
 
@@ -138,8 +152,26 @@ Ejemplo body:
 }
 ```
 
+### CRUD de cliente
+- Crear cliente para presupuesto: `POST /api/clientes/{presupuestoId}`
+- Listar clientes: `GET /api/clientes`
+- Obtener cliente por presupuesto: `GET /api/clientes/{presupuestoId}`
+- Actualizar cliente por presupuesto: `PUT /api/clientes/{presupuestoId}`
+- Eliminar cliente por presupuesto: `DELETE /api/clientes/{presupuestoId}`
+
+Ejemplo body:
+```json
+{
+  "nombreCliente": "Juan Pérez",
+  "documento": "12345678Z",
+  "direccion": "Av. Principal 99, Madrid",
+  "telefono": "+34600000000",
+  "email": "juanperez@email.com"
+}
+```
+
 ## Salida de PDF
-Los PDFs se generan automáticamente en la carpeta:
+Los PDFs se generan automáticamente en la carpeta y, cuando existen, incluyen los datos de empresa y cliente:
 
 ```text
 generated-pdfs/

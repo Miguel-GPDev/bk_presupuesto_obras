@@ -9,6 +9,8 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 import com.obras.presupuesto.model.Capitulo;
+import com.obras.presupuesto.model.Cliente;
+import com.obras.presupuesto.model.EncabezadoEmpresa;
 import com.obras.presupuesto.model.Partida;
 import com.obras.presupuesto.model.Presupuesto;
 import org.springframework.stereotype.Service;
@@ -41,6 +43,26 @@ public class PdfService {
             document.add(new Paragraph("Nombre: " + presupuesto.getNombre()));
             document.add(new Paragraph("Fecha: " + presupuesto.getFechaCreacion().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)));
             document.add(new Paragraph(" "));
+
+            EncabezadoEmpresa empresa = presupuesto.getEncabezadoEmpresa();
+            if (empresa != null) {
+                document.add(new Paragraph("Empresa: " + empresa.getNombreEmpresa(), FontFactory.getFont(FontFactory.HELVETICA_BOLD, 11)));
+                document.add(new Paragraph("CIF: " + empresa.getCif()));
+                document.add(new Paragraph("Dirección: " + empresa.getDireccion()));
+                document.add(new Paragraph("Teléfono: " + empresa.getTelefono()));
+                document.add(new Paragraph("Email: " + empresa.getEmail()));
+                document.add(new Paragraph(" "));
+            }
+
+            Cliente cliente = presupuesto.getCliente();
+            if (cliente != null) {
+                document.add(new Paragraph("Cliente: " + cliente.getNombreCliente(), FontFactory.getFont(FontFactory.HELVETICA_BOLD, 11)));
+                document.add(new Paragraph("Documento: " + cliente.getDocumento()));
+                document.add(new Paragraph("Dirección cliente: " + cliente.getDireccion()));
+                document.add(new Paragraph("Teléfono cliente: " + cliente.getTelefono()));
+                document.add(new Paragraph("Email cliente: " + cliente.getEmail()));
+                document.add(new Paragraph(" "));
+            }
 
             BigDecimal total = BigDecimal.ZERO;
             for (Capitulo capitulo : presupuesto.getCapitulos()) {
