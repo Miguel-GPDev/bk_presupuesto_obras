@@ -152,6 +152,19 @@ Ejemplo body:
 }
 ```
 
+### Registro de usuario
+`POST /api/auth/register`
+
+Este endpoint no requiere autenticación y permite crear nuevos usuarios para usar HTTP Basic.
+
+Ejemplo body:
+```json
+{
+  "username": "nuevo_usuario",
+  "password": "claveSegura123"
+}
+```
+
 ### CRUD de cliente
 - Crear cliente para presupuesto: `POST /api/clientes/{presupuestoId}`
 - Listar clientes: `GET /api/clientes`
@@ -175,4 +188,31 @@ Los PDFs se generan automáticamente en la carpeta y, cuando existen, incluyen l
 
 ```text
 generated-pdfs/
+```
+
+
+## Levantar PostgreSQL con Docker
+Se incluye un `docker-compose.yml` y un script de inicialización SQL en `docker/postgres/init/01-schema.sql`.
+
+### 1) Iniciar contenedor
+```bash
+docker compose up -d postgres
+```
+
+### 2) Verificar estado
+```bash
+docker compose ps
+docker compose logs -f postgres
+```
+
+### 3) Detener contenedor
+```bash
+docker compose down
+```
+
+> El script SQL se ejecuta automáticamente la **primera vez** que se crea el volumen de datos.
+> Si quieres relanzar la inicialización desde cero:
+```bash
+docker compose down -v
+docker compose up -d postgres
 ```
