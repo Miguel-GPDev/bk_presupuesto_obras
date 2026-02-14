@@ -120,6 +120,24 @@ Ejemplo body:
 - Actualizar: `PUT /api/presupuestos/capitulos/{capituloId}/partidas/{partidaId}`
 - Eliminar: `DELETE /api/presupuestos/capitulos/{capituloId}/partidas/{partidaId}`
 
+### CRUD de encabezado de empresa
+- Crear encabezado para presupuesto: `POST /api/encabezados/{presupuestoId}`
+- Listar encabezados: `GET /api/encabezados`
+- Obtener encabezado por presupuesto: `GET /api/encabezados/{presupuestoId}`
+- Actualizar encabezado por presupuesto: `PUT /api/encabezados/{presupuestoId}`
+- Eliminar encabezado por presupuesto: `DELETE /api/encabezados/{presupuestoId}`
+
+Ejemplo body:
+```json
+{
+  "nombreEmpresa": "Constructora Norte S.L.",
+  "cif": "B12345678",
+  "direccion": "Calle Mayor 10, Madrid",
+  "telefono": "+34910000000",
+  "email": "info@constructoranorte.com"
+}
+```
+
 ## Salida de PDF
 Los PDFs se generan automáticamente en la carpeta:
 
