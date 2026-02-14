@@ -9,11 +9,14 @@ import com.obras.presupuesto.dto.PresupuestoListadoResponse;
 import com.obras.presupuesto.dto.PresupuestoResponse;
 import com.obras.presupuesto.service.PresupuestoService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Validated
 @RestController
 @RequestMapping("/api/presupuestos")
 public class PresupuestoController {
@@ -37,61 +40,61 @@ public class PresupuestoController {
 
     @PostMapping("/{presupuestoId}/capitulos")
     @ResponseStatus(HttpStatus.CREATED)
-    public CapituloResponse agregarCapitulo(@PathVariable Long presupuestoId,
+    public CapituloResponse agregarCapitulo(@PathVariable @Positive Long presupuestoId,
                                             @Valid @RequestBody CrearCapituloRequest request) {
         return presupuestoService.agregarCapitulo(presupuestoId, request);
     }
 
     @GetMapping("/{presupuestoId}/capitulos")
-    public List<CapituloResponse> listarCapitulos(@PathVariable Long presupuestoId) {
+    public List<CapituloResponse> listarCapitulos(@PathVariable @Positive Long presupuestoId) {
         return presupuestoService.listarCapitulos(presupuestoId);
     }
 
     @GetMapping("/{presupuestoId}/capitulos/{capituloId}")
-    public CapituloResponse obtenerCapitulo(@PathVariable Long presupuestoId, @PathVariable Long capituloId) {
+    public CapituloResponse obtenerCapitulo(@PathVariable @Positive Long presupuestoId, @PathVariable @Positive Long capituloId) {
         return presupuestoService.obtenerCapitulo(presupuestoId, capituloId);
     }
 
     @PutMapping("/{presupuestoId}/capitulos/{capituloId}")
-    public CapituloResponse actualizarCapitulo(@PathVariable Long presupuestoId,
-                                               @PathVariable Long capituloId,
+    public CapituloResponse actualizarCapitulo(@PathVariable @Positive Long presupuestoId,
+                                               @PathVariable @Positive Long capituloId,
                                                @Valid @RequestBody CrearCapituloRequest request) {
         return presupuestoService.actualizarCapitulo(presupuestoId, capituloId, request);
     }
 
     @DeleteMapping("/{presupuestoId}/capitulos/{capituloId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void eliminarCapitulo(@PathVariable Long presupuestoId, @PathVariable Long capituloId) {
+    public void eliminarCapitulo(@PathVariable @Positive Long presupuestoId, @PathVariable @Positive Long capituloId) {
         presupuestoService.eliminarCapitulo(presupuestoId, capituloId);
     }
 
     @PostMapping("/capitulos/{capituloId}/partidas")
     @ResponseStatus(HttpStatus.CREATED)
-    public PartidaResponse agregarPartida(@PathVariable Long capituloId,
+    public PartidaResponse agregarPartida(@PathVariable @Positive Long capituloId,
                                           @Valid @RequestBody PartidaRequest request) {
         return presupuestoService.agregarPartida(capituloId, request);
     }
 
     @GetMapping("/capitulos/{capituloId}/partidas")
-    public List<PartidaResponse> listarPartidas(@PathVariable Long capituloId) {
+    public List<PartidaResponse> listarPartidas(@PathVariable @Positive Long capituloId) {
         return presupuestoService.listarPartidas(capituloId);
     }
 
     @GetMapping("/capitulos/{capituloId}/partidas/{partidaId}")
-    public PartidaResponse obtenerPartida(@PathVariable Long capituloId, @PathVariable Long partidaId) {
+    public PartidaResponse obtenerPartida(@PathVariable @Positive Long capituloId, @PathVariable @Positive Long partidaId) {
         return presupuestoService.obtenerPartida(capituloId, partidaId);
     }
 
     @PutMapping("/capitulos/{capituloId}/partidas/{partidaId}")
-    public PartidaResponse actualizarPartida(@PathVariable Long capituloId,
-                                             @PathVariable Long partidaId,
+    public PartidaResponse actualizarPartida(@PathVariable @Positive Long capituloId,
+                                             @PathVariable @Positive Long partidaId,
                                              @Valid @RequestBody PartidaRequest request) {
         return presupuestoService.actualizarPartida(capituloId, partidaId, request);
     }
 
     @DeleteMapping("/capitulos/{capituloId}/partidas/{partidaId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void eliminarPartida(@PathVariable Long capituloId, @PathVariable Long partidaId) {
+    public void eliminarPartida(@PathVariable @Positive Long capituloId, @PathVariable @Positive Long partidaId) {
         presupuestoService.eliminarPartida(capituloId, partidaId);
     }
 }
