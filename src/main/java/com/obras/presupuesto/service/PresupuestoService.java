@@ -1,13 +1,18 @@
 package com.obras.presupuesto.service;
 
 import com.obras.presupuesto.dto.CapituloRequest;
+import com.obras.presupuesto.dto.CapituloResponse;
+import com.obras.presupuesto.dto.CrearCapituloRequest;
 import com.obras.presupuesto.dto.CrearPresupuestoRequest;
 import com.obras.presupuesto.dto.PartidaRequest;
 import com.obras.presupuesto.dto.PresupuestoListadoResponse;
 import com.obras.presupuesto.dto.PresupuestoResponse;
+import com.obras.presupuesto.dto.PartidaResponse;
 import com.obras.presupuesto.model.Capitulo;
 import com.obras.presupuesto.model.Partida;
 import com.obras.presupuesto.model.Presupuesto;
+import com.obras.presupuesto.repository.CapituloRepository;
+import com.obras.presupuesto.repository.PartidaRepository;
 import com.obras.presupuesto.repository.PresupuestoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,10 +24,17 @@ import java.util.List;
 public class PresupuestoService {
 
     private final PresupuestoRepository presupuestoRepository;
+    private final CapituloRepository capituloRepository;
+    private final PartidaRepository partidaRepository;
     private final PdfService pdfService;
 
-    public PresupuestoService(PresupuestoRepository presupuestoRepository, PdfService pdfService) {
+    public PresupuestoService(PresupuestoRepository presupuestoRepository,
+                              CapituloRepository capituloRepository,
+                              PartidaRepository partidaRepository,
+                              PdfService pdfService) {
         this.presupuestoRepository = presupuestoRepository;
+        this.capituloRepository = capituloRepository;
+        this.partidaRepository = partidaRepository;
         this.pdfService = pdfService;
     }
 
@@ -53,6 +65,43 @@ public class PresupuestoService {
         String pdfPath = pdfService.generarPdf(completo);
         BigDecimal total = calcularTotal(completo);
         return new PresupuestoResponse(completo.getId(), completo.getNombre(), pdfPath, total);
+    }
+
+
+    @Transactional
+    public CapituloResponse agregarCapitulo(Long presupuestoId, CrearCapituloRequest request) {
+        Presupuesto presupuesto = presupuestoRepository.findById(presupuestoId)
+                .orElseThrow(() -> new IllegalStateException("No existe el presupuesto con id " + presupuestoId));
+
+        Capitulo capitulo = new Capitulo();
+        capitulo.setNombre(request.nombre());
+        capitulo.setPresupuesto(presupuesto);
+
+        Capitulo guardado = capituloRepository.save(capitulo);
+        return new CapituloResponse(guardado.getId(), guardado.getNombre(), presupuestoId);
+    }
+
+    @Transactional
+    public PartidaResponse agregarPartida(Long capituloId, PartidaRequest request) {
+        Capitulo capitulo = capituloRepository.findById(capituloId)
+                .orElseThrow(() -> new IllegalStateException("No existe el capítulo con id " + capituloId));
+
+        Partida partida = new Partida();
+        partida.setUnidadMedida(request.unidadMedida());
+        partida.setReferencia(request.referencia());
+        partida.setCantidad(request.cantidad());
+        partida.setPrecio(request.precio());
+        partida.setCapitulo(capitulo);
+
+        Partida guardada = partidaRepository.save(partida);
+        return new PartidaResponse(
+                guardada.getId(),
+                guardada.getUnidadMedida(),
+                guardada.getReferencia(),
+                guardada.getCantidad(),
+                guardada.getPrecio(),
+                capituloId
+        );
     }
 
     @Transactional(readOnly = true)

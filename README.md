@@ -82,6 +82,30 @@ curl -u admin:admin123 -X POST http://localhost:8080/api/presupuestos \
 ### Listar presupuestos
 `GET /api/presupuestos`
 
+
+### Añadir capítulo a un presupuesto existente
+`POST /api/presupuestos/{presupuestoId}/capitulos`
+
+Ejemplo body:
+```json
+{
+  "nombre": "Estructura"
+}
+```
+
+### Añadir partida a un capítulo existente
+`POST /api/presupuestos/capitulos/{capituloId}/partidas`
+
+Ejemplo body:
+```json
+{
+  "unidadMedida": "m2",
+  "referencia": "EST-001",
+  "cantidad": 25,
+  "precio": 49.9
+}
+```
+
 ## Salida de PDF
 Los PDFs se generan automáticamente en la carpeta:
 
